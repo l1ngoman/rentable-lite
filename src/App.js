@@ -2,6 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './styles/App.css';
 
+import appState   from './Seeds';
+
 import Customer   from './functions/Customer';
 import Customers  from './containers/Customers';
 import Home       from './containers/Home';
