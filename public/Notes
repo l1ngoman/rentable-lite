@@ -1,0 +1,22 @@
+As a user I can see a list of all equipment with it's status (here or customer last name w/ link to customer profile) 
+As a user, I can see a customer profile with a list view of all equipment they have on rent
+As a user, I can create a Rental order to generate a PDF of a receipt to sell to a customer
+As a user, I can create a Pickup order to return the user's equipment back into stock
+
+Wishlist:
+As a user, I can create/edit/delete a customer
+As a user, I can update my company profile
+As a user, I can create/edit/delete an item
+
+
+Tools used:
+- React
+- Bootstrap
+- React Bootstrap
+- JQuery
+- Tabulator?
+
+
+NEXT::
+Edit and new customer pages
+Need to figure out how to update the seed file / state?
