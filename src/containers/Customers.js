@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { getCustomers } from '../api';
 import CustomerTile from '../functions/CustomerTile';
+import { Container, Row, Col } from 'react-bootstrap';
 
 class Customers extends Component
 {
@@ -17,23 +18,22 @@ class Customers extends Component
         return (
             <div>
                 <h1 className='text-center'>All Customers</h1>
-                <div className='container-fluid p-0'>
-                    <div className='row no-gutters justify-content-center bg-light'>
-                        <div className='col-1 bg-light border'></div>
-                        <div className='col-3 text-center font-weight-bold border-top border-right border-bottom'>Name</div>
-                        <div className='col-3 text-center font-weight-bold border-top border-right border-bottom'>Address</div>
-                        <div className='col-2 text-center font-weight-bold border-top border-right border-bottom'>Phone</div>
-                        <div className='col-3 text-center font-weight-bold border-top border-right border-bottom'>Email</div>
-                    </div>
+                <Container>
+                    <Row className='justify-content-center bg-secondary border border-dark d-none d-md-flex'>
+                        <Col xs={3} className='text-center font-weight-bold p-1'>Name</Col>
+                        <Col xs={3} className='text-center font-weight-bold p-1'>Address</Col>
+                        <Col xs={3} className='text-center font-weight-bold p-1'>Phone</Col> 
+                        <Col xs={3} className='text-center font-weight-bold p-1'>Email</Col> 
+                    </Row>
                     {   (customers.length > 0 )
                         ? customers.map((el,i) => {
                             return (
-                                <CustomerTile key={i} customer={el}/>
+                                <CustomerTile key={i} id={i} customer={el}/>
                             );        
                         })
                         : "No Customers found."
                     }
-                </div>
+                </Container>
             </div>
         );
     }

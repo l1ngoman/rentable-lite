@@ -51,15 +51,26 @@ export const getItem = function(id){
 }
 
 export const getItems = function(){
-    return appState.items;
+    const { items, rentals, customers } = appState;
+
+    for( let el in items) {
+        for( let i in rentals) {
+            if(rentals[i].itemID === items[el].id) {
+                rentals[i]['customer']  = customers[rentals[i].customerID-1]
+                items[el]['rental']     = rentals[i];
+            }
+        }
+    }
+
+    return items;
 }
 
 export const getRentalData = function(id){
     // WILL USE ID - 1 TO GET THE CUSTOMER, SINCE THEY ARE ZERO-INDEXED
     if(appState.rentals[id-1]) {
-        let rental          = appState.rentals[id-1];
-        let customers       = appState.customers;
-        let items           = appState.items;
+        let rental              = appState.rentals[id-1];
+        let { customers, items} = appState.customers;
+
         rental['customer']  = customers[rental.customerID-1];
 
         return {

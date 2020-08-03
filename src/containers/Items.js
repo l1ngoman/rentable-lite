@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { getItems } from '../api';
 import ItemTile from '../functions/ItemTile';
+import { Container, Row, Col } from 'react-bootstrap';
+
 
 class Items extends Component
 {
@@ -17,21 +19,21 @@ class Items extends Component
         return (
             <div>
                 <h1 className='text-center'>Items</h1>
-                <div className='container-fluid p-0'>
-                    <div className='row no-gutters justify-content-center'>
-                        <div className='col-1 bg-light border'></div>
-                        <div className='col-3 bg-light border-top border-bottom text-center font-weight-bold'>Name</div>
-                        <div className='col-3 bg-light border text-center font-weight-bold'>Serial Number</div>
-                    </div>
+                <Container>
+                <Row className='justify-content-center bg-secondary border border-dark d-none d-md-flex'>
+                        <Col xs={4} className='text-center font-weight-bold p-1'>Name</Col>
+                        <Col xs={4} className='text-center font-weight-bold p-1'>Serial Number</Col>
+                        <Col xs={3} className='text-center font-weight-bold p-1'>Location</Col>
+                    </Row>
                     {   (items.length > 0 )
                         ?   items.map((el,i) => {
                             return (
-                                <ItemTile key={i} item={el}/>
+                                <ItemTile key={i} id={i} item={el}/>
                             );        
                         })
                         : "No Items found."
                     }
-                </div>
+                </Container>
             </div>
         );
     }

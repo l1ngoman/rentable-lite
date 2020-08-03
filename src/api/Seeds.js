@@ -37,7 +37,7 @@ const appState = {
       {
         id:         3,
         firstName:  'Ralph',
-        lastName:   'Vaugn Williams',
+        lastName:   'Vaughn Williams',
         address1:   '8922 W Second Ave',
         address2:   '',
         city:       'Seattle',

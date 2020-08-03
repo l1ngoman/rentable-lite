@@ -1,20 +1,26 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 const ItemTile = props => {
     const { item } = props;
     return (
-        <div className='row no-gutters justify-content-center align-items-center'>
-            <div className='col-1 text-center border-bottom border-left'>
-                <Button type='button' size='sm' variant='light' href={`/Items/${item.id}`}>
-                    <FontAwesomeIcon icon={faFileAlt} />
-                </Button>
-            </div>
-            <div className='col-3 border-bottom border-left p-1'>{item.name}</div>
-            <div className='col-3 border-bottom border-left border-right p-1'>{item.serialNumber}</div>
-        </div>
+        <Row className={`justify-content-center border-dark border-bottom border-left border-right ${(props.id % 2 == 0) ? '' : 'bg-light'}`}>
+            <Col xs={12} className='d-md-none border-top border-dark'></Col>
+            <Col xs={4} className='font-weight-bold text-right d-sm-none'>Name: </Col>
+            <Col xs={6} sm={4} className='p-1'>
+                <a href={`/Items/${item.id}`}>{item.name}</a>
+            </Col>
+            <Col xs={4} className='font-weight-bold text-right d-sm-none'>Serial No: </Col>
+            <Col xs={6} sm={4} className='text-center'>
+                {item.serialNumber}
+            </Col>
+            <Col xs={4} className='font-weight-bold text-right d-sm-none'>Location: </Col>
+            <Col xs={6} sm={3} className='text-center p-1'>
+                {(item.rental) &&
+                    (item.rental.status === 'OPEN') ? <a href={`/Customers/${item.rental.customer.id}`}>{`${item.rental.customer.lastName}, ${item.rental.customer.firstName}`}</a> : 'In Stock'}
+            </Col>
+        </Row>
     );
 };
 
