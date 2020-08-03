@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './styles/App.css';
 
-import appState   from './Seeds';
+import appState   from './api/Seeds';
 
 import Customer   from './functions/Customer';
 import Customers  from './containers/Customers';
@@ -11,10 +11,8 @@ import Home       from './containers/Home';
 import Item       from './functions/Item';
 import Items      from './containers/Items';
 import Pickup     from './functions/Pickup';
-import PickupForm from './functions/PickupForm';
 import Pickups    from './containers/Pickups';
 import Rental     from './functions/Rental';
-import RentalForm from './functions/RentalForm';
 import Rentals    from './containers/Rentals';
 
 function App() {
@@ -23,24 +21,29 @@ function App() {
       <Header />
       <Router>
         <Switch>
+          {/* ATG:: NEW PAGES */}
+          <Route exact path='/Customers/new' render={(routeProps) => <Customer formType={'New'} {...routeProps}/>}></Route>
+          <Route exact path='/Items/new' render={(routeProps) => <Item formType={'New'} {...routeProps}/>}></Route>
+          <Route exact path='/Rentals/new' render={(routeProps) => <Rental formType={'New'} {...routeProps}/>}></Route>
+          <Route exact path='/Pickups/new' render={(routeProps) => <Pickup formType={'New'} {...routeProps}/>}></Route>
+
           {/* ATG:: SHOW PAGES */}
           <Route exact path='/Customers/:id' render={(routeProps) => <Customer formType={'Show'} {...routeProps}/>}></Route>
-          <Route exact path='/Item/:id' render={(routeProps) => <Item appState={appState} {...routeProps}/>}></Route>
-          <Route exact path='/Pickup/:id' render={(routeProps) => <Pickup appState={appState} {...routeProps}/>}></Route>
-          <Route exact path='/Rental/:id' render={(routeProps) => <Rental appState={appState} {...routeProps}/>}></Route>
+          <Route exact path='/Items/:id' render={(routeProps) => <Item formType={'Show'} {...routeProps}/>}></Route>
+          <Route exact path='/Rentals/:id' render={(routeProps) => <Rental formType={'Show'} {...routeProps}/>}></Route>
+          <Route exact path='/Pickups/:id' render={(routeProps) => <Pickup formType={'Show'} {...routeProps}/>}></Route>
           
           {/* ATG:: EDIT PAGES */}
           <Route exact path='/Customers/:id/edit' render={(routeProps) => <Customer formType={'Edit'} {...routeProps}/>}></Route>
-
-          {/* ATG:: FORM PAGES */}
-          <Route exact path='/PickupForm/:pageType' render={(routeProps) => <PickupForm appState={appState} {...routeProps}/>}></Route>
-          <Route exact path='/RentalForm/:pageType' render={(routeProps) => <RentalForm appState={appState} {...routeProps}/>}></Route>
+          <Route exact path='/Items/:id/edit' render={(routeProps) => <Item formType={'Edit'} {...routeProps}/>}></Route>
+          <Route exact path='/Rentals/:id/edit' render={(routeProps) => <Rental formType={'Edit'} {...routeProps}/>}></Route>
+          <Route exact path='/Pickups/:id/edit' render={(routeProps) => <Pickup formType={'Edit'} {...routeProps}/>}></Route>
 
           {/* ATG:: INDEX PAGES */}
           <Route exact path='/Customers' render={() => <Customers customers={appState.customers}/>}></Route>
           <Route exact path='/Items' render={() => <Items items={appState.items}/>}></Route>
-          <Route exact path='/Pickups' render={() => <Pickups appState={appState}/>}></Route>
-          <Route exact path='/Rentals' render={() => <Rentals appState={appState}/>}></Route>
+          <Route exact path='/Pickups' render={() => <Pickups pickups={appState.pickups}/>}></Route>
+          <Route exact path='/Rentals' render={() => <Rentals rentals={appState.rentals}/>}></Route>
 
           {/* ATG:: HOME PAGE */}
           <Route path='/' component={Home} appState={appState}></Route>

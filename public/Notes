@@ -14,9 +14,20 @@ Tools used:
 - Bootstrap
 - React Bootstrap
 - JQuery
+- FontAwesome
 - Tabulator?
 
 
 NEXT::
-Edit and new customer pages
+Create Rental Form
+Rental Index, Show, and Tile
+Create Pickup Form
 Need to figure out how to update the seed file / state?
+    - either move state to App.js with function passed down to update or just Redux
+
+Add a bit more styling to jazz it up
+
+8/2
+3:30p - 6:30p - Created Pickup & Rental index, show, and tile components. Added active rentals, rental history, and pickup index to Customer show page to show related orders.
+6:30p - 7:30p - Added links between pickups & orders on index pages and on Customer show page.
+7:30p - 
