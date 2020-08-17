@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { getCustomers } from '../api';
-import CustomerTile from '../functions/CustomerTile';
 import { Container, Row, Col } from 'react-bootstrap';
+import CustomerTile from '../functions/CustomerTile';
+import { Customer } from '../api';
+
 
 class Customers extends Component
 {
@@ -40,7 +41,7 @@ class Customers extends Component
 
     componentDidMount() {
         let { customers } = this.state
-        customers = getCustomers();
+        customers = Customer.getCustomers();
         this.setState({customers})
     }
 }

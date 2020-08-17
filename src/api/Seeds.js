@@ -1,121 +1,144 @@
 const appState = {
-    company: {
-        companyName:  "Jake's Rental Co.",
-        address1:     '1117 5th Ave',
-        address2:     'Ste 201',
-        city:         'San Diego',
-        state:        'CA',
-        zip:          '92101',
-        phone:        '619-555-2567',
-        email:        'cs@jakesrental.com'
+    "company": {
+        "company_id":  "1",
+        "company_name":  "Jake's Rental Co.",
+        "address_1":     "1117 5th Ave",
+        "address_2":     "Ste 201",
+        "city":         "San Diego",
+        "state":        "CA",
+        "zip":          "92101",
+        "phone":        "619-555-2567",
+        "email":        "cs@jakesrental.com"
     },
-    customers: [
+    "users": {
+        "user_id":    "1",
+        "first_name": "Andrew",
+        "last_name":  "Garrett",
+        "email":      "athomasgarrett@gmail.com"
+    },
+    "customers": [
       {
-        id:         1,
-        firstName:  'Tom',
-        lastName:   'Daily',
-        address1:   '123 Testing Ln',
-        address2:   '',
-        city:       'Jacksonville',
-        state:      'MO',
-        zip:        '22345',
-        phone:      '123-445-3345',
-        email:      'tdaily@website.com'
+        "customer_id":         "1",
+        "first_name":  "Tom",
+        "last_name":   "Daily",
+        "address_1":   "123 Testing Ln",
+        "address_2":   "",
+        "city":       "Jacksonville",
+        "state":      "MO",
+        "zip":        "22345",
+        "phone":      "123-445-3345",
+        "email":      "tdaily@website.com"
       },
       {
-        id:         2,
-        firstName:  'John',
-        lastName:   'Hickson',
-        address1:   '99842 Hwy 345',
-        address2:   '',
-        city:       'Austin',
-        state:      'TX',
-        zip:        '99876',
-        phone:      '898-223-4455',
-        email:      'hickson@johnhickson.com'
+        "customer_id":         "2",
+        "first_name":  "John",
+        "last_name":   "Hickson",
+        "address_1":   "99842 Hwy 345",
+        "address_2":   "",
+        "city":       "Austin",
+        "state":      "TX",
+        "zip":        "99876",
+        "phone":      "898-223-4455",
+        "email":      "hickson@johnhickson.com"
       },
       {
-        id:         3,
-        firstName:  'Ralph',
-        lastName:   'Vaughn Williams',
-        address1:   '8922 W Second Ave',
-        address2:   '',
-        city:       'Seattle',
-        state:      'WA',
-        zip:        '98101',
-        phone:      '206-555-2223',
-        email:      'rvw@composer.com'
-      },
-    ],
-    items: [
-      {
-          id:           1,
-          name:         'To Kill a Mockingbird',
-          serialNumber: '9780061120084',
-      },
-      {
-          id:           2,
-          name:         '1984',
-          serialNumber: '9780451524935',
-      },
-      {
-          id:           3,
-          name:         'The Great Gatsby',
-          serialNumber: '9780333791035',
-      },
-      {
-          id:           4,
-          name:         'The Catcher in the Rye',
-          serialNumber: '9780316769488',
-      },
-      {
-          id:           5,
-          name:         'Moby Dick',
-          serialNumber: '9780192741561',
+        "customer_id":         "3",
+        "first_name":  "Ralph",
+        "last_name":   "Vaughn Williams",
+        "address_1":   "8922 W Second Ave",
+        "address_2":   "",
+        "city":       "Seattle",
+        "state":      "WA",
+        "zip":        "98101",
+        "phone":      "206-555-2223",
+        "email":      "rvw@composer.com"
       },
     ],
-    rentals: [
+    "items": [
       {
-          id:           1,
-          orderNumber:  100,
-          customerID:   3,
-          itemID:       4,
-          status:       'OPEN'
+          "item_id":               "1",
+          "name":             "To Kill a Mockingbird",
+          "author_first_name":  "Harper",
+          "author_last_name":   "Lee",
+          "serial_number":     "9780061120084",
       },
       {
-          id:           2,
-          orderNumber:  101,
-          customerID:   2,
-          itemID:       2,
-          status:       'OPEN'
+          "item_id":               "2",
+          "name":             "1984",
+          "author_first_name":  "George",
+          "author_last_name":   "Orwell",
+          "serial_number":     "9780582060180",
       },
       {
-          id:           3,
-          orderNumber:  105,
-          customerID:   1,
-          itemID:       2,
-          status:       'CLOSED'
+          "item_id":               "3",
+          "name":             "The Great Gatsby",
+          "author_first_name":  "F. Scott",
+          "author_last_name":   "Fitzgerald",
+          "serial_number":     "9780333791035",
       },
       {
-          id:           4,
-          orderNumber:  106,
-          customerID:   1,
-          itemID:       3,
-          status:       'OPEN'
+          "item_id":               "4",
+          "name":             "The Catcher in the Rye",
+          "author_first_name":  "J. D.",
+          "author_last_name":   "Salinger",
+          "serial_number":     "9780316769488",
+      },
+      {
+          "item_id":               "5",
+          "name":             "Moby Dick",
+          "author_first_name":  "Herman",
+          "author_last_name":   "Melville",
+          "serial_number":     "9780192741561",
       },
     ],
-    pickups: [
+    "rentals": [
       {
-          id:           1,
-          orderNumber:  100,
-          rentalID:     3,
-          status:       'CLOSED'
+          "rental_id":     "1",
+          "order_number":  "100",
+          "order_date":  "2020-07-28",
+          "customer_id":   "3",
+          "item_id":       "4",
+          "status":       "OPEN"
       },
       {
-          id:           2,
-          orderNumber:  102,
-          rentalID:     2,
-          status:       'OPEN'
+          "rental_id":           "2",
+          "order_number":  "101",
+          "order_date":  "2020-08-05",
+          "customer_id":   "2",
+          "item_id":       "2",
+          "status":       "OPEN"
+      },
+      {
+          "rental_id":           "3",
+          "order_number":  "105",
+          "order_date":  "2020-08-10",
+          "customer_id":   "1",
+          "item_id":       "2",
+          "status":       "CLOSED"
+      },
+      {
+          "rental_id":           "4",
+          "order_number":  "106",
+          "order_date":  "2020-08-03",
+          "customer_id":   "1",
+          "item_id":       "3",
+          "status":       "OPEN"
+      },
+    ],
+    "pickups": [
+      {
+          "pickup_id":           "1",
+          "order_number":  "100",
+          "pickup_date": "2020-07-31",
+          "rental_id":     "3",
+          "status":       "CLOSED"
+      },
+      {
+          "pickup_id":           "2",
+          "order_number":  "102",
+          "pickup_date": "2020-08-16",
+          "rental_id":     "2",
+          "status":       "OPEN"
       },
     ]
   };
