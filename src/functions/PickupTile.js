@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
 import { Button } from 'react-bootstrap';
 
-const PickupTile = props => {
+const PickupTile = (props) => {
     const { pickup } = props;
     return (
         <div className='row no-gutters justify-content-center'>

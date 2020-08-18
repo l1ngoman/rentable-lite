@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Row, Col } from 'react-bootstrap';
 
-const ItemTile = props => {
+const ItemTile = (props) => {
     const { item } = props;
     return (
         <Row className={`justify-content-center border-dark border-bottom border-left border-right ${(props.id % 2 == 0) ? '' : 'bg-light'}`}>

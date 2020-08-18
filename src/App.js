@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './styles/App.css';
 
@@ -14,11 +14,35 @@ import Pickup     from './functions/Pickup';
 import Pickups    from './containers/Pickups';
 import Rental     from './functions/Rental';
 import Rentals    from './containers/Rentals';
+import Login      from './containers/Login';
 
-function App() {
+const App = function() {
+  const [user_id, setUserId] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName]   = useState('');
+  const [email, setEmail]         = useState('');
+  const [token, setToken]         = useState('');
+  const [tokenExp, setTokenExp]   = useState(''); // UNIX TIMESTAMP
+
+  // ATG:: CREATE A LOGIN OBJECT TO PASS ALL HOOK UPDATE FUNCTIONS AS A SINGLE PROP
+  const auth = {
+    setUserId,
+    setFirstName,
+    setLastName,
+    setEmail,
+    setToken,
+    setTokenExp,
+  };
+
+  console.log('user_id: ', user_id);
+  console.log('firstName: ', firstName);
+  console.log('lastName: ', lastName);
+  console.log('email: ', email);
+  console.log('token: ', token);
+  console.log('tokenExp: ', tokenExp);
   return (
     <div>
-      <Header />
+      <Header welcomeBar={firstName}/>
       <Router>
         <Switch>
           {/* ATG:: NEW PAGES */}
@@ -44,6 +68,13 @@ function App() {
           <Route exact path='/Items' render={() => <Items items={appState.items}/>}></Route>
           <Route exact path='/Pickups' render={() => <Pickups pickups={appState.pickups}/>}></Route>
           <Route exact path='/Rentals' render={() => <Rentals rentals={appState.rentals}/>}></Route>
+          {/* <Route exact path='/Customers' component={Customers}></Route>
+          <Route exact path='/Items' component={Items}></Route>
+          <Route exact path='/Pickups' component={Pickups}></Route>
+          <Route exact path='/Rentals' component={Rentals}></Route> */}
+
+          <Route exact path='/login' render={() => <Login auth={auth}/>}></Route>
+          {/* <Route exact path='/user/signup' component={Signup}></Route> */}
 
           {/* ATG:: HOME PAGE */}
           <Route path='/' component={Home} appState={appState}></Route>

@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
 import { Row, Col } from 'react-bootstrap';
 
-const CustomerTile = props => {
+const CustomerTile = (props) => {
     const { customer } = props;
     console.log(props.id);
     return (

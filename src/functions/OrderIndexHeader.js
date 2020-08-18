@@ -1,6 +1,6 @@
 import React from 'react';
 
-const OrderIndexHeader = props => {
+const OrderIndexHeader = (props) => {
     return (
         <div className='row no-gutters justify-content-center bg-light'>
             <div className='col-1 bg-light border'></div>
