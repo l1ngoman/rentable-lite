@@ -1,56 +1,43 @@
+/*****************************************************************
+* helpers/index.js
+******************************************************************
+* CONTRIBUTORS:
+* Andrew T. Garrett
+*
+* CONTENTS:
+* Functions that call interact with the API.
+*****************************************************************/
 import appState from './Seeds';
-// ATG:: THIS FILE CONTAINS FUNCTIONS THAT CALL DATA VIA THE API
-const BASE = 'http://localhost:3001';
+import AuthService from '../helpers/auth_helper';
+const auth = new AuthService();
+const BASE = process.env.REACT_APP_RENTABLE_API_URL;
 
-
-// export const Customer = {
-//     getCustomers: function(){
-//         return fetch(BASE + '/customers')
-//         .then((resp) => {
-//           resp.errors && console.log(resp);
-    
-//           let json = resp.json();
-//           console.log(json);
-//           return json
-//         });
-//     },
-//     getCustomer: function(id){
-//         return fetch(BASE + `/customers/${id}`)
-//         .then((resp) => {
-//           resp.errors && console.log(resp);
-    
-//           let json = resp.json();
-//           console.log(json);
-//           return json
-//         });
-//     },
-// }
-
-export const loginUser = function(login){
-    return fetch(`${BASE}/user/login`, {
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(login),
-      method: "POST"
-    })
-    .then((resp) => {
-      return resp.json();
-    })
-    .catch(err => {
-      throw new Error(err)
-    });
-};
 
 export const getCustomers = function(){
-    return appState.customers;
+    return auth.authFetch(`${BASE}/customers`, {
+        method: "GET"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
 }
 
 export const getCustomer = function(id){
-  // WILL USE ID - 1 TO GET THE CUSTOMER, SINCE THEY ARE ZERO-INDEXED
-  return (appState.customers[id-1])
-  ? appState.customers[id-1]
-  : false;
+    return fetch(`${BASE}/customers/${id}`, {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "GET"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
 }
 
 export const getItem = function(id){

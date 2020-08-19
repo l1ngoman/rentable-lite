@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faSave, faLongArrowAltLeft } from '@fortawesome/free-solid-svg-icons';
 import Customers from '../containers/Customers';
 import RentalTile from '../functions/RentalTile';
 import PickupTile from '../functions/PickupTile';
 import OrderIndexHeader from './OrderIndexHeader';
 import { getCustomer } from '../api';
+import '../styles/App.css';
 
 class Customer extends Component
 {
@@ -25,28 +26,31 @@ class Customer extends Component
             customerClosedRentals:  [],
             customerPickups:        [],
             customer: {
-                id:         (props.formType === 'New') ? '' : ((props.id) ? props.id : props.match.params.id),
-                firstName:  '',
-                lastName:   '',
-                address1:   '',
-                address2:   '',
-                city:       '',
-                state:      '',
-                zip:        '',
-                phone:      '',
-                email:      ''        
+                customer_id:    (props.formType === 'New') ? '' : ((props.id) ? props.id : props.match.params.id),
+                first_name:     '',
+                last_name:      '',
+                address_1:      '',
+                address_2:      '',
+                city:           '',
+                state:          '',
+                zip:            '',
+                phone:          '',
+                email:          '',
+                rentals:        [],
+                pickups:        []        
             }
         };
     }
 
     render(){
+        console.log(this.state.customer);
         let { formType, customer, customerOpenRentals, customerClosedRentals, customerPickups, notFound, readonly, submitted, showActiveOrders, showOrderHistory, showPickups } = this.state;
         return (
             <div className='container-fluid p-0'>
                 <div className='row no-gutters justify-content-center align-items-center'>
                     <div className='col-sm-3'></div>
                     <div className='col-12 col-sm-6'>
-                        <h1 className='text-center'>{(formType === 'New') ? 'Add Customer' : `${customer.firstName} ${customer.lastName}`}</h1>
+                        <h1 className='text-center'>{(formType === 'New') ? 'Add Customer' : `${customer.first_name} ${customer.last_name}`}</h1>
                     </div>
                     <div className='col-12 col-sm-1 text-center'>
                         {(formType !== 'New')
@@ -59,6 +63,11 @@ class Customer extends Component
                     </div>
                     <div className='col-sm-2'></div>
                 </div>
+                <div className='row no-gutters justify-content-center align-items-center'>
+                    <div className='col-6'>
+                        <a href='/Customers' className='text-muted text-small'><FontAwesomeIcon icon={faLongArrowAltLeft} /><span className='ml-1'>Back to All Customers</span></a>
+                    </div>
+                </div>
                 <hr className='w-50'/>
                 {(!notFound)  
                 ?   <Container>
@@ -68,14 +77,14 @@ class Customer extends Component
                                     <Form.Group controlId="customerFormFirstName">
                                     {(formType !== 'Show') && 
                                         <Form.Label>First Name</Form.Label>}
-                                        <Form.Control name="firstName" type="input" value={customer.firstName} placeholder="First" readOnly={readonly} onChange={this.handleChange}/>
+                                        <Form.Control name="first_name" type="input" value={customer.first_name} placeholder="First" readOnly={readonly} onChange={this.handleChange}/>
                                     </Form.Group>
                                 </Col>
                                 <Col xs={10} sm={6} md={5} lg={4}>
                                     <Form.Group controlId="customerFormLastName">
                                     {(formType !== 'Show') && 
                                         <Form.Label>Last Name</Form.Label>}
-                                        <Form.Control name="lastName" type="input" value={customer.lastName} placeholder="Last" readOnly={readonly} onChange={this.handleChange}/>
+                                        <Form.Control name="last_name" type="input" value={customer.last_name} placeholder="Last" readOnly={readonly} onChange={this.handleChange}/>
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -84,14 +93,14 @@ class Customer extends Component
                                     <Form.Group controlId="customerFormAddress1">
                                     {(formType !== 'Show') && 
                                         <Form.Label>Address 1</Form.Label>}
-                                        <Form.Control name="address1" type="input" value={customer.address1} placeholder="Address 1" readOnly={readonly} onChange={this.handleChange}/>
+                                        <Form.Control name="address_1" type="input" value={customer.address_1} placeholder="Address 1" readOnly={readonly} onChange={this.handleChange}/>
                                     </Form.Group>
                                 </Col>
                                 <Col xs={10} sm={6} md={5} lg={4}>
                                     <Form.Group controlId="customerFormAddress2">
                                     {(formType !== 'Show') && 
                                         <Form.Label>Address 2</Form.Label>}
-                                        <Form.Control name="address2" type="input" value={customer.address2} placeholder="Address 2" readOnly={readonly} onChange={this.handleChange}/>
+                                        <Form.Control name="address_2" type="input" value={customer.address_2} placeholder="Address 2" readOnly={readonly} onChange={this.handleChange}/>
                                     </Form.Group>
                                 </Col>
                             </Row>
@@ -174,6 +183,9 @@ class Customer extends Component
                                         ?   <div className='container-fluid p-0'>
                                                 <OrderIndexHeader orderType='Rental'/>
                                                 {customerOpenRentals.map((el,i) => {
+                                                    el.customer_id = customer.customer_id;
+                                                    el.first_name = customer.first_name;
+                                                    el.last_name = customer.last_name;
                                                     return <RentalTile key={i} rental={el} />
                                                 })}
                                             </div>
@@ -184,6 +196,9 @@ class Customer extends Component
                                         ?   <div className='container-fluid p-0'>
                                                 <OrderIndexHeader orderType='Rental'/>
                                                 {customerClosedRentals.map((el,i) => {
+                                                    el.customer_id = customer.customer_id;
+                                                    el.first_name = customer.first_name;
+                                                    el.last_name = customer.last_name;
                                                     return <RentalTile key={i} rental={el} />
                                                 })}
                                             </div>
@@ -194,6 +209,9 @@ class Customer extends Component
                                         ?   <div className='container-fluid p-0'>
                                                 <OrderIndexHeader orderType='Pickup'/>
                                                 {customerPickups.map((el,i) => {
+                                                    el.customer_id = customer.customer_id;
+                                                    el.first_name = customer.first_name;
+                                                    el.last_name = customer.last_name;
                                                     return <PickupTile key={i} pickup={el} />
                                                 })}
                                             </div>
@@ -211,35 +229,31 @@ class Customer extends Component
     }
 
     componentDidMount() {
-        let { formType, customer, customerOpenRentals, customerClosedRentals } = this.state;
+        let { formType, customer, customerOpenRentals, customerClosedRentals, customerPickups } = this.state;
 
         if(formType === 'New') {
             this.setState({notFound: false});
         } else {
-            const resp = getCustomer(customer.id);
-            const APICustomer   = resp.customer;
-            const APIRentals    = resp.customerRentals;
-            const APIPickups    = resp.customerPickups;
-
-            for( let el in APIRentals) {
-                APIRentals[el]['customer'] = APICustomer;
-
-                if(APIRentals[el].status === 'OPEN') {
-                    customerOpenRentals.push(APIRentals[el]);
-                } else {
-                    customerClosedRentals.push(APIRentals[el]);     
+            getCustomer(customer.customer_id)
+            .then(data => {
+                if(data.responseObject[0].rentals.length > 0) {
+                    for (let i = 0; i < data.responseObject[0].rentals.length; i++) {
+                        if(data.responseObject[0].rentals[i].status === "OPEN") {
+                            customerOpenRentals.push(data.responseObject[0].rentals[i]);
+                        } else {
+                            customerClosedRentals.push(data.responseObject[0].rentals[i]);
+                        }
+                    }
                 }
-            }
-
-            (APICustomer)
-            ?   this.setState({
-                    customer: APICustomer, 
-                    customerOpenRentals, 
-                    customerClosedRentals, 
-                    customerPickups: APIPickups, 
+                customerPickups = data.responseObject[0].pickups;
+                this.setState({
+                    customer: data.responseObject[0],
+                    customerOpenRentals,
+                    customerClosedRentals,
+                    customerPickups,
                     notFound: false
                 })
-            :   this.setState({notFound: true})
+            });
         }
     }
 

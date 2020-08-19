@@ -41,8 +41,14 @@ class Customers extends Component
 
     componentDidMount() {
         let { customers } = this.state
-        customers = getCustomers();
-        this.setState({customers})
+        getCustomers()
+        .then(data => {
+            customers = data.responseObject;
+            this.setState({customers})
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 }
 

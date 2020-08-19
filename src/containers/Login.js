@@ -1,8 +1,8 @@
-import React, { useState, Component } from 'react';
-import { Redirect } from 'react-router';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
-import decode from 'jwt-decode';
-import { loginUser } from '../api';
+import React, { Component } from 'react';                     // https://reactjs.org/docs/getting-started.html
+import { Redirect } from 'react-router';                                // https://reactrouter.com/web/api
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';    // https://react-bootstrap.github.io/getting-started/introduction
+import decode from 'jwt-decode';                                        // https://www.npmjs.com/package/jwt-decode
+import AuthService from '../helpers/auth_helper';
 
 class Login extends Component
 {
@@ -10,10 +10,11 @@ class Login extends Component
         super(props);
 
         this.state = {
-            auth: this.props.auth,
+            auth: new AuthService(),
             loginSuccess: false,
             showMessage: false,
             validationMessage: '',
+            validationMessageStyle: '',
             login: {
                 email: '',
                 password: ''
@@ -22,7 +23,7 @@ class Login extends Component
     }
 
     render() {
-        let { loginSuccess, showMessage, validationMessage } = this.state;
+        let { loginSuccess, showMessage, validationMessage, validationMessageStyle } = this.state;
         return (
             <Container>
                 <Row className='justify-content-center align-items-center'>
@@ -36,7 +37,7 @@ class Login extends Component
                         {   
                             showMessage &&
                             <Row className="justify-content-center">
-                                <Col xs={10} sm={8} md={5}>
+                                <Col xs={10} sm={8} md={5} className={validationMessageStyle}>
                                     <div>{validationMessage}</div>
                                 </Col>
                             </Row>
@@ -82,39 +83,27 @@ class Login extends Component
     // ATG:: FUNCTION TO TOGGLE THE EDIT/SHOW PAGE AND SAVE THE EDIT PAGE
     handleSave = (e) => {
         e.preventDefault();
-        let { auth, login, validationMessage } = this.state;
-        let token, decoded_token;
-
+        let { auth, login } = this.state;
 
         // ATG:: CALL LOGIN FUNCTION
-        loginUser(login)
-        .then(data => {
-            console.log(data);
-            validationMessage = data.message;
-            token = data.token;
+        auth.sign_in(login)
 
-            if(!token) {
+        window.setTimeout(() => {
+            if(auth.loggedIn()) {
                 this.setState({
-                    validationMessage: data.message, 
-                    showMessage: true
-                });    
+                    validationMessage: "Login Success!", 
+                    validationMessageStyle: "text-center bg-success", 
+                    showMessage: true,
+                    loginSuccess: true
+                }); 
+            } else {
+                this.setState({
+                    validationMessage: "Authentication Failed.", 
+                    validationMessageStyle: "text-center bg-danger", 
+                    showMessage: true,
+                });
             }
-
-            // ATG:: DECODE TOKEN AND SET APP DATA VIA HOOK FUNCTIONS
-            decoded_token = decode(data.token);
-            auth.setUserId(decoded_token.user_id);
-            auth.setFirstName(decoded_token.first_name);
-            auth.setLastName(decoded_token.last_name);
-            auth.setEmail(login.email);
-            auth.setToken(token);
-            auth.setTokenExp(decoded_token.exp);
-
-            this.setState({
-                validationMessage: data.message, 
-                showMessage: true,
-                loginSuccess: true
-            });
-        })
+        }, 1000)
     }
 };
 
