@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { getItems } from '../api';
-import ItemTile from '../functions/ItemTile';
-import { Container, Row, Col } from 'react-bootstrap';
+import ItemTile from '../functions/items/ItemTile';
+import { Container } from 'react-bootstrap';
+import ItemIndexHeader from '../functions/items/ItemIndexHeader';
 
 
 class Items extends Component
@@ -20,11 +21,7 @@ class Items extends Component
             <div>
                 <h1 className='text-center'>Items</h1>
                 <Container>
-                <Row className='justify-content-center bg-secondary border border-dark d-none d-md-flex'>
-                        <Col xs={4} className='text-center font-weight-bold p-1'>Name</Col>
-                        <Col xs={4} className='text-center font-weight-bold p-1'>Serial Number</Col>
-                        <Col xs={3} className='text-center font-weight-bold p-1'>Location</Col>
-                    </Row>
+                    <ItemIndexHeader />
                     {   (items.length > 0 )
                         ?   items.map((el,i) => {
                             return (
@@ -40,8 +37,14 @@ class Items extends Component
 
     componentDidMount() {
         let { items } = this.state
-        items = getItems();
-        this.setState({items})
+        getItems()
+        .then(data => {
+            items = data.responseObject;
+            this.setState({items})
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 }
 

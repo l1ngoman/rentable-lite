@@ -3,10 +3,10 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Header = () => {
+const Header = (props) => {
     return (
         <header className='container-fluid p-0'>
-            <div className='row justify-content-center'>
+            <div className='row no-gutters justify-content-center'>
                 <div className='col-12'>
                     <Navbar bg="dark" variant='dark' expand="lg">
                         <Navbar.Brand href="/">Rentable</Navbar.Brand>
@@ -24,6 +24,9 @@ const Header = () => {
                         </Navbar.Collapse>
                     </Navbar>
                 </div>
+            </div>
+            <div className='row justify-content-end'>
+                <div className='col-12'>{props.welcomebar}</div>
             </div>
         </header>
     );

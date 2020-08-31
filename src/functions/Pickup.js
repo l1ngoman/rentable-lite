@@ -16,13 +16,13 @@ class Pickup extends Component
             disabled:   (props.formType === 'Show') ? true : false,
             customers:  {},
             pickup: {
-                id:             (props.formType === 'New') ? '' : ((props.id) ? props.id : props.match.params.id),
-                orderNumber:    '',
-                rentalID:       '',
-                status:         '',
-                rental:         {},
-                customers:      {},
-                items:          {},
+                pickupid:               (props.formType === 'New') ? '' : ((props.pickup_id) ? props.pickup_id : props.match.params.id),
+                pickup_number:          '',
+                pickup_date:            '',
+                pickup_actual_date:     '',
+                rental_id:              '',
+                rental_order_number:    '',
+                pickup_status:          '',
             }
         };
     }
@@ -34,7 +34,7 @@ class Pickup extends Component
                 <div className='row no-gutters justify-content-center align-items-center'>
                     <div className='col-sm-3'></div>
                     <div className='col-12 col-sm-6'>
-                        <h1 className='text-center'>{(formType === 'New') ? 'New Pickup' : `Pickup #${pickup.orderNumber}`}</h1>
+                        <h1 className='text-center'>{(formType === 'New') ? 'New Pickup' : `Pickup #${pickup.pickup_number}`}</h1>
                     </div>
                     <div className='col-12 col-sm-1 text-center'>
                         {(formType !== 'New')
@@ -58,7 +58,7 @@ class Pickup extends Component
                                         <Form.Label>Customer</Form.Label>}
                                         <Form.Control name="customerID" as="select" disabled={disabled} onChange={this.handleChange}>
                                             {customers.map(el => {
-                                                return <option key={el.id} value={el.id}>{`${el.lastName}, ${el.firstName}`}</option>
+                                                return <option key={el.customer_id} value={el.customer_id}>{`${el.last_name}, ${el.first_name}`}</option>
                                             })}
                                         </Form.Control>
                                     </Form.Group>
@@ -69,7 +69,7 @@ class Pickup extends Component
                                         <Form.Label>Item</Form.Label>}
                                         <Form.Control name="itemID" as="select" disabled={disabled} onChange={this.handleChange}>
                                             {items.map(el => {
-                                                return <option key={el.id} value={el.id}>{`${el.name} - ${el.serialNumber}`}</option>
+                                                return <option key={el.item_id} value={el.item_id}>{`${el.item_name} - ${el.serial_number}`}</option>
                                             })}
                                         </Form.Control>
                                     </Form.Group>

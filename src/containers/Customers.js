@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import CustomerTile from '../functions/CustomerTile';
-import { Customer } from '../api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
+import CustomerTile from '../functions/customers/CustomerTile';
+import { getCustomers } from '../api';
 
 
 class Customers extends Component
@@ -20,6 +22,12 @@ class Customers extends Component
             <div>
                 <h1 className='text-center'>All Customers</h1>
                 <Container>
+                    <Row className='no-gutters justify-content-center align-items-center'>
+                        <Col xs={6}>
+                            <a href='/Customers/new' className='text-muted text-small'><FontAwesomeIcon icon={faPlusSquare} /><span className='ml-1'>Create New Customers</span></a>
+                        </Col>
+                    </Row>
+                    <hr className='w-50'/>
                     <Row className='justify-content-center bg-secondary border border-dark d-none d-md-flex'>
                         <Col xs={3} className='text-center font-weight-bold p-1'>Name</Col>
                         <Col xs={3} className='text-center font-weight-bold p-1'>Address</Col>
@@ -41,8 +49,14 @@ class Customers extends Component
 
     componentDidMount() {
         let { customers } = this.state
-        customers = Customer.getCustomers();
-        this.setState({customers})
+        getCustomers()
+        .then(data => {
+            customers = data.responseObject;
+            this.setState({customers})
+        })
+        .catch(err => {
+            console.log(err);
+        });
     }
 }
 

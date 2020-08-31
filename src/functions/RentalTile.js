@@ -1,28 +1,28 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFileAlt } from '@fortawesome/free-solid-svg-icons'
-import { Button } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import moment from 'moment';
 
-const RentalTile = props => {
+const RentalTile = (props) => {
     const { rental } = props;
     return (
-        <div className='row no-gutters justify-content-center'>
-            <div className='col-1 text-center border-bottom border-left'>
-                <Button type='button' size='sm' variant='light' href={`/Rentals/${rental.id}`}>
-                    <FontAwesomeIcon icon={faFileAlt} />
-                </Button>
-            </div>
-            <div className='col-3 border-bottom border-left p-1'>{rental.orderNumber}</div>
-            <div className='col-4 border-bottom border-left p-1'>
-                <a href={`/Customers/${rental.customer.id}`}>{`${rental.customer.lastName}, ${rental.customer.firstName}`}</a>
-            </div>
-            <div className='col-2 border-bottom border-left border-right text-center p-1'>{rental.status}</div>
-            <div className='col-2 border-bottom border-left border-right text-center p-1'>
-                {(rental.pickup)
-                    ?   <a href={`/Pickups/${rental.pickup.id}`}>{rental.pickup.orderNumber}</a>
-                    :   'N/A'}
-            </div>
-        </div>
+        <Row className='no-gutters justify-content-center border border-dark'>
+            <Col xs={4} className='font-weight-bold text-right d-sm-none p-1'>Rental #: </Col>
+            <Col xs={8} sm={3} className='text-center p-1'>
+                <a href={`/Rentals/${rental.rental_id}`}>{rental.rental_number}</a>
+            </Col>
+            <Col xs={4} className='font-weight-bold text-right d-sm-none p-1'>Customer: </Col>
+            <Col xs={8} sm={3} className='text-center p-1'>
+                <a href={`/Customers/${rental.customer_id}`}>{`${rental.last_name}, ${rental.first_name}`}</a>
+            </Col>
+            <Col xs={4} className='font-weight-bold text-right d-sm-none p-1'>Date: </Col>
+            <Col xs={8} sm={3}  className='text-center p-1'>
+                {moment(rental.delivery_date).format('YYYY-MM-DD')}
+            </Col>
+            <Col xs={4} className='font-weight-bold text-right d-sm-none p-1'>Status: </Col>
+            <Col xs={8} sm={3} className='text-center p-1'>
+                {rental.rental_status}
+            </Col>
+        </Row>
     );
 };
 
