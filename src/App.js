@@ -4,11 +4,11 @@ import './styles/App.css';
 
 import appState   from './api/Seeds';
 
-import Customer    from './functions/Customer';
+import Customer    from './containers/Customer';
 import Customers   from './containers/Customers';
 import Header      from './functions/Header';
 import Home        from './containers/Home';
-import Item        from './functions/Item';
+import Item        from './containers/Item';
 import Items       from './containers/Items';
 import Pickup      from './functions/Pickup';
 import Pickups     from './containers/Pickups';
@@ -38,21 +38,11 @@ const App = function() {
               <Route exact path='/Rentals/:id' render={(routeProps) => <Rental formType={'Show'} {...routeProps}/>}></Route>
               <Route exact path='/Pickups/:id' render={(routeProps) => <Pickup formType={'Show'} {...routeProps}/>}></Route>
               
-              {/* ATG:: EDIT PAGES */}
-              <Route exact path='/Customers/:id/edit' render={(routeProps) => <Customer formType={'Edit'} {...routeProps}/>}></Route>
-              <Route exact path='/Items/:id/edit' render={(routeProps) => <Item formType={'Edit'} {...routeProps}/>}></Route>
-              <Route exact path='/Rentals/:id/edit' render={(routeProps) => <Rental formType={'Edit'} {...routeProps}/>}></Route>
-              <Route exact path='/Pickups/:id/edit' render={(routeProps) => <Pickup formType={'Edit'} {...routeProps}/>}></Route>
-
               {/* ATG:: INDEX PAGES */}
-              <Route exact path='/Customers' render={() => <Customers customers={appState.customers}/>}></Route>
-              <Route exact path='/Items' render={() => <Items items={appState.items}/>}></Route>
-              <Route exact path='/Pickups' render={() => <Pickups pickups={appState.pickups}/>}></Route>
-              <Route exact path='/Rentals' render={() => <Rentals rentals={appState.rentals}/>}></Route>
-              {/* <Route exact path='/Customers' component={Customers}></Route>
+              <Route exact path='/Customers' component={Customers}></Route>
               <Route exact path='/Items' component={Items}></Route>
               <Route exact path='/Pickups' component={Pickups}></Route>
-              <Route exact path='/Rentals' component={Rentals}></Route> */}
+              <Route exact path='/Rentals' component={Rentals}></Route>
 
               <Route exact path='/login' component={Login}></Route>
 

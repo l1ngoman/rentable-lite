@@ -26,10 +26,7 @@ export const getCustomers = function(){
 }
 
 export const getCustomer = function(id){
-    return fetch(`${BASE}/customers/${id}`, {
-        headers: {
-          "Content-Type": "application/json"
-        },
+    return auth.authFetch(`${BASE}/customers/${id}`, {
         method: "GET"
     })
     .then((resp) => {
@@ -40,27 +37,106 @@ export const getCustomer = function(id){
     });
 }
 
+export const getCustomerRentals = function(id){
+    return auth.authFetch(`${BASE}/customers/${id}/rentals`, {
+        method: "GET"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+}
+
+export const getCustomerPickups = function(id){
+    return auth.authFetch(`${BASE}/customers/${id}/pickups`, {
+        method: "GET"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+};
+
+export const updateCustomer = function(customer){
+    return auth.authFetch(`${BASE}/customers/${customer.customer_id}`, {
+        body: JSON.stringify(customer),
+        method: "PUT"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+};
+
+export const createCustomer = function(customer){
+    return auth.authFetch(`${BASE}/customers`, {
+        body: JSON.stringify(customer),
+        method: "POST"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+};
+
+export const deleteCustomer = function(id){
+    return auth.authFetch(`${BASE}/customers/${id}`, {
+        method: "DELETE"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+};
+
 export const getItem = function(id){
-    // WILL USE ID - 1 TO GET THE CUSTOMER, SINCE THEY ARE ZERO-INDEXED
-    return (appState.items[id-1])
-    ? appState.items[id-1]
-    : false;
+    return auth.authFetch(`${BASE}/items/${id}`, {
+        method: "GET"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
 }
 
 export const getItems = function(){
-    const { items, rentals, customers } = appState;
-
-    for( let el in items) {
-        for( let i in rentals) {
-            if(rentals[i].itemID === items[el].id) {
-                rentals[i]['customer']  = customers[rentals[i].customerID-1]
-                items[el]['rental']     = rentals[i];
-            }
-        }
-    }
-
-    return items;
+    return auth.authFetch(`${BASE}/items`, {
+        method: "GET"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
 }
+
+export const getItemRentals = function(id){
+    return auth.authFetch(`${BASE}/items/${id}/rentals`, {
+        method: "GET"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+}
+
+
+
 
 export const getRentalData = function(id){
     // WILL USE ID - 1 TO GET THE CUSTOMER, SINCE THEY ARE ZERO-INDEXED

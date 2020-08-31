@@ -6,7 +6,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 const Header = (props) => {
     return (
         <header className='container-fluid p-0'>
-            <div className='row justify-content-center'>
+            <div className='row no-gutters justify-content-center'>
                 <div className='col-12'>
                     <Navbar bg="dark" variant='dark' expand="lg">
                         <Navbar.Brand href="/">Rentable</Navbar.Brand>

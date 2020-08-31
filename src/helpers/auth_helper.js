@@ -21,20 +21,20 @@ export default class AuthService {
 			body: JSON.stringify(credentials),
 		})
 		.then(response => {
-            let json = response.json()
-            .then(data => {
-                if(data.token) {
-                    console.log(data.token);
-                    this.setToken(data.token);
-                    return data.token;
-                } else {
-                    this.error = true;
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                return err;
-            });
+			response.json()
+			.then(data => {
+				if(data.token) {
+					console.log(data.token);
+					this.setToken(data.token);
+					return data.token;
+				} else {
+					this.error = true;
+				}
+			})
+			.catch(err => {
+				console.log(err);
+				return err;
+			});
 		});
     }
 

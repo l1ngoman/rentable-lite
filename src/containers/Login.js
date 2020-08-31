@@ -1,7 +1,6 @@
-import React, { Component } from 'react';                     // https://reactjs.org/docs/getting-started.html
+import React, { Component } from 'react';                               // https://reactjs.org/docs/getting-started.html
 import { Redirect } from 'react-router';                                // https://reactrouter.com/web/api
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';    // https://react-bootstrap.github.io/getting-started/introduction
-import decode from 'jwt-decode';                                        // https://www.npmjs.com/package/jwt-decode
 import AuthService from '../helpers/auth_helper';
 
 class Login extends Component
@@ -68,7 +67,7 @@ class Login extends Component
                         </Row>
                     </Form>
                 </Container>
-                {loginSuccess && <Redirect to="/" />}
+                {loginSuccess && <Redirect to="/Customers" />}
             </Container>
         );
     };
@@ -86,7 +85,7 @@ class Login extends Component
         let { auth, login } = this.state;
 
         // ATG:: CALL LOGIN FUNCTION
-        auth.sign_in(login)
+        auth.sign_in(login);
 
         window.setTimeout(() => {
             if(auth.loggedIn()) {
