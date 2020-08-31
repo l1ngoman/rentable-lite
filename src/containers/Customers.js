@@ -24,7 +24,7 @@ class Customers extends Component
                 <Container>
                     <Row className='no-gutters justify-content-center align-items-center'>
                         <Col xs={6}>
-                            <a href='/Customers/new' className='text-muted text-small'><FontAwesomeIcon icon={faPlusSquare} /><span className='ml-1'>Create New Customers</span></a>
+                            <a href='/Customers/new' className='text-muted text-small'><FontAwesomeIcon icon={faPlusSquare} /><span className='ml-1'>Create a New Customer</span></a>
                         </Col>
                     </Row>
                     <hr className='w-50'/>

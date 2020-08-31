@@ -135,7 +135,43 @@ export const getItemRentals = function(id){
     });
 }
 
+export const updateItem = function(item){
+    return auth.authFetch(`${BASE}/items/${item.item_id}`, {
+        body: JSON.stringify(item),
+        method: "PUT"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+};
 
+export const createItem = function(item){
+    return auth.authFetch(`${BASE}/items`, {
+        body: JSON.stringify(item),
+        method: "POST"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+};
+
+export const deleteItem = function(id){
+    return auth.authFetch(`${BASE}/items/${id}`, {
+        method: "DELETE"
+    })
+    .then((resp) => {
+        return resp.json();
+    })
+    .catch(err => {
+        throw new Error(err)
+    });
+};
 
 
 export const getRentalData = function(id){

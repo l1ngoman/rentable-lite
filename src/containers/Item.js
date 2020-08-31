@@ -10,17 +10,21 @@ import PlaceHolderMsg from '../functions/PlaceHolderMsg';
 import OrderIndexHeader from '../functions/OrderIndexHeader';
 import RentalTile from '../functions/RentalTile';
 import ActiveCustomerTile from '../functions/customers/ActiveCustomerTile';
-import { getItem, getItemRentals } from '../api';
+import { getItem, getItemRentals, createItem, updateItem, deleteItem } from '../api';
 
 class Item extends Component
 {
     constructor(props){
         super(props);
         this.state = {
-            submitted: false,
-            notFound: true,
+            notFound:               true,
+            submitted:              false,
+            formType:               props.formType,
+            showMessage:            false,
+            message:                '',
+            messageClass:           '',
+            redirect:               "/Items",
             hasRecords: false,
-            formType: props.formType,
             itemRentals: [],
             activeRental: {},
             item: {
@@ -37,7 +41,8 @@ class Item extends Component
     }
 
     render(){
-        let { formType, item, activeRental, itemRentals, notFound, submitted, hasRecords } = this.state;
+        let { item, activeRental, itemRentals, notFound, submitted, formType, showMessage, message, messageClass, redirect, hasRecords } = this.state;
+        showMessage && this.hideMessage();
             return (
             <Container className='container-fluid p-0'>
                 <Row className='no-gutters justify-content-center align-items-center'>
@@ -64,6 +69,12 @@ class Item extends Component
                     </Col>
                 </Row>
                 <hr className='w-50'/>
+                {showMessage &&
+                    <Container>
+                        <Row className='justify-content-center'>
+                            <Col xs={12} sm={8} md={6} className={`text-center font-weight-bold ${messageClass}`}>{message}</Col>
+                        </Row>
+                    </Container>}
                 {(!notFound) &&
                     <Container>
                         {(formType === 'Show')
@@ -95,7 +106,7 @@ class Item extends Component
                             </Tab>
                         </Tabs>
                     </Container>}
-                {submitted && <Redirect to="/Items" />}
+                {submitted && <Redirect to={redirect} />}
             </Container>
         );
     }
@@ -135,10 +146,64 @@ class Item extends Component
     }
 
     // ATG:: FUNCTION TO CREATE A NEW OBJECT
-    handleClick = (e) => {
+    handleClick = (e, type = null) => {
         e.preventDefault();
-        console.log(this.state.item);
-        this.setState({submitted: true})
+        let { item, formType } = this.state;
+
+        switch(formType) {
+            case 'Edit':
+                updateItem(item)
+                .then(data => {
+                    this.setState({
+                        formType:       'Show', 
+                        showMessage:    true,
+                        messageClass:   'alert-success',
+                        message:        data.message
+                    });
+                })
+                .catch(err => {
+                    this.setState({
+                        formType:       'Show', 
+                        showMessage:    true,
+                        messageClass:   'alert-error',
+                        message:        err.message
+                    });
+                });
+                break;
+            case 'New':
+                createItem(item)
+                .then(data => {
+                    this.setState({
+                        redirect: `/Items/${data.responseObject.item_id}`,
+                        submitted: true
+                    });
+                })
+                .catch(err => {
+                    this.setState({
+                        showMessage:    true,
+                        messageClass:   'alert-error',
+                        message:        err.message
+                    });
+                });
+                break;
+            default:
+        }
+        if(type === 'Delete') {
+            deleteItem(item.item_id)
+            .then(data => {
+                this.setState({
+                    redirect: `/Items`,
+                    submitted: true
+                });
+            })
+            .catch(err => {
+                this.setState({
+                    showMessage:    true,
+                    messageClass:   'bg-error',
+                    message:        err.message
+                });
+            });
+        }
     }
 
     // ATG:: FUNCTION TO TOGGLE THE EDIT/SHOW PAGE AND SAVE THE EDIT PAGE
@@ -163,6 +228,16 @@ class Item extends Component
                 });
             }
         }
+    }
+
+    hideMessage = () => {
+        window.setTimeout(() => {
+            this.setState({
+                showMessage:  false,
+                messageClass: '',
+                message:      ''
+            });
+        }, 2250);
     }
 }
 

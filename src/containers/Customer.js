@@ -81,7 +81,7 @@ class Customer extends Component
                             <Col xs={12} sm={8} md={6} className={`text-center font-weight-bold ${messageClass}`}>{message}</Col>
                         </Row>
                     </Container>}
-                    {(!notFound) &&
+                {(!notFound) &&
                     <Container className='mb-5'>
                         {(formType === 'Show')
                         ?   <CustomerShow customer={customer} />
@@ -187,7 +187,7 @@ class Customer extends Component
                     this.setState({
                         formType:       'Show', 
                         showMessage:    true,
-                        messageClass:   'bg-success',
+                        messageClass:   'alert-success',
                         message:        data.message
                     });
                 })
@@ -195,7 +195,7 @@ class Customer extends Component
                     this.setState({
                         formType:       'Show', 
                         showMessage:    true,
-                        messageClass:   'bg-error',
+                        messageClass:   'alert-error',
                         message:        err.message
                     });
                 });
@@ -211,7 +211,7 @@ class Customer extends Component
                 .catch(err => {
                     this.setState({
                         showMessage:    true,
-                        messageClass:   'bg-error',
+                        messageClass:   'alert-error',
                         message:        err.message
                     });
                 });
