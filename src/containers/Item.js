@@ -1,3 +1,4 @@
+import moment from 'moment'                      // https://momentjs.com/
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import { Tabs, Tab, Button, Container, Row, Col } from 'react-bootstrap';
@@ -27,32 +28,33 @@ class Item extends Component
             hasRecords: false,
             itemRentals: [],
             activeRental: {},
+            tmpName:                '',
             item: {
                 item_id:            (props.formType === 'New') ? '' : ((props.id) ? props.id : props.match.params.id),
                 item_name:          '',
                 item_description:   '',
                 tracking_number:    '',
                 serial_number:      '',
-                purchase_date:      '',
-                purchase_cost:      '',
+                purchase_date:      moment().format('YYYY-MM-DD'),
+                purchase_cost:      0.00,
                 item_status:        ''
             }
         };
     }
 
     render(){
-        let { item, activeRental, itemRentals, notFound, submitted, formType, showMessage, message, messageClass, redirect, hasRecords } = this.state;
+        let { item, tmpName, activeRental, itemRentals, notFound, submitted, formType, showMessage, message, messageClass, redirect, hasRecords } = this.state;
         showMessage && this.hideMessage();
             return (
             <Container className='container-fluid p-0'>
                 <Row className='no-gutters justify-content-center align-items-center'>
                     <Col sm={3}></Col>
                     <Col xs={12} sm={6}>
-                        <h1 className='text-center'>{(formType === 'New') ? 'Add Item' : item.item_name}</h1>
+                        <h1 className='text-center'>{(formType === 'New') ? 'Add Item' : tmpName}</h1>
                     </Col>
                     <Col className='col-12 col-sm-1 text-right'>
                         {(formType !== 'New') &&
-                            <Button type='button' size='lg' variant='light' onClick={() => this.handleSave(formType)}>
+                            <Button type='button' size='lg' variant='light' className='m-1' onClick={() => this.handleSave(formType)}>
                                 {(formType !== 'Edit')
                                 ?   <FontAwesomeIcon icon={faEdit} />
                                 :   <FontAwesomeIcon icon={faSave} />}
@@ -83,11 +85,11 @@ class Item extends Component
                         <hr className='w-50'/>
                         <Tabs variant='tabs' defaultActiveKey='ITEM' className='row justify-content-center mb-3' onSelect={(eventKey) => this.toggleOrderView(eventKey)}>
                             <Tab eventKey='ITEM' title='Active Rental' className='container-fluid p-0'>
-                                {(Object.keys(activeRental).length > 0)
+                                {(activeRental.active_rental_id && activeRental.active_rental_id != null)
                                 ?   <div>
                                         <ActiveCustomerTile info={activeRental}/>
                                     </div>
-                                :   <PlaceHolderMsg alert='primary' message='Item In Stock' />}
+                                :   <PlaceHolderMsg alert='success' message='Item In Stock' />}
                             </Tab>
                             <Tab eventKey='RENTAL' title='Rental History' className='container-fluid p-0'>
                                 {(itemRentals.length > 0)
@@ -132,7 +134,9 @@ class Item extends Component
                     },
                     activeRental:   data.responseObject.active_rental,
                     hasRecords:     data.responseObject.hasRecords,
-                    notFound: false
+                    notFound: false,
+                    // ATG:: CREATE A TEMPORARY NAME FOR THE PAGE TITLE SO IT DOESN'T CHANGE AS THE USER IS EDITING THE NAME ON THE FORM UNTIL SAVED
+                    tmpName: data.responseObject.item_name
                 });
             });
         }
@@ -153,19 +157,29 @@ class Item extends Component
         switch(formType) {
             case 'Edit':
                 updateItem(item)
-                .then(data => {
-                    this.setState({
-                        formType:       'Show', 
-                        showMessage:    true,
-                        messageClass:   'alert-success',
-                        message:        data.message
-                    });
+                .then(data => {  
+                    if(data.error) {
+                        this.setState({
+                            formType:       'Edit', 
+                            showMessage:    true,
+                            messageClass:   'alert-danger',
+                            message:        data.message
+                        });
+                    } else {
+                        this.setState({
+                            formType:       'Show', 
+                            showMessage:    true,
+                            messageClass:   'alert-success',
+                            message:        data.message,
+                            tmpName:        this.state.item.item_name
+                        });
+                    }
                 })
                 .catch(err => {
                     this.setState({
-                        formType:       'Show', 
+                        formType:       'Edit', 
                         showMessage:    true,
-                        messageClass:   'alert-error',
+                        messageClass:   'alert-danger',
                         message:        err.message
                     });
                 });
@@ -173,15 +187,23 @@ class Item extends Component
             case 'New':
                 createItem(item)
                 .then(data => {
-                    this.setState({
-                        redirect: `/Items/${data.responseObject.item_id}`,
-                        submitted: true
-                    });
+                    if(data.error) {
+                        this.setState({
+                            showMessage:    true,
+                            messageClass:   'alert-danger',
+                            message:        data.message
+                        });
+                    } else {
+                        this.setState({
+                            redirect: `/Items/${data.responseObject.item_id}`,
+                            submitted: true
+                        });
+                   }
                 })
                 .catch(err => {
                     this.setState({
                         showMessage:    true,
-                        messageClass:   'alert-error',
+                        messageClass:   'alert-danger',
                         message:        err.message
                     });
                 });
@@ -208,13 +230,10 @@ class Item extends Component
 
     // ATG:: FUNCTION TO TOGGLE THE EDIT/SHOW PAGE AND SAVE THE EDIT PAGE
     handleSave = (formType) => {
-        console.log(this.state.item);
-
         if(formType === 'Show'){
-            this.setState({formType: 'Edit', readonly: false});
+            this.setState({formType: 'Edit'});
         } else if(formType === 'Edit') {
-            // save function here
-            this.setState({formType: 'Show', readonly: true});
+            this.setState({formType: 'Show'});
         }
     }
 
@@ -237,7 +256,7 @@ class Item extends Component
                 messageClass: '',
                 message:      ''
             });
-        }, 2250);
+        }, 4000);
     }
 }
 

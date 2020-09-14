@@ -5,7 +5,7 @@ import moment from 'moment';
 const ActiveCustomerTile = (props) => {
     const { info } = props;
     return (
-        <Container>
+        <Container className='w-75 alert-primary'>
             <h5 className='text-center'>On Rent to Customer</h5>
             <hr className='w-50' />
             <Row className={`justify-content-center`}>

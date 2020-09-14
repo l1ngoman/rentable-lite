@@ -58,7 +58,7 @@ class Customer extends Component
                     </Col>
                     <Col xs={12} sm={1} className='text-right'>
                         {(formType !== 'New') &&
-                            <Button type='button' size='lg' variant='light' onClick={() => this.handleSave(formType)}>
+                            <Button type='button' size='lg' variant='light' className='m-1' onClick={() => this.handleSave(formType)}>
                                 {(formType !== 'Edit')
                                 ?   <FontAwesomeIcon icon={faEdit} />
                                 :   <FontAwesomeIcon icon={faSave} />}
@@ -195,7 +195,7 @@ class Customer extends Component
                     this.setState({
                         formType:       'Show', 
                         showMessage:    true,
-                        messageClass:   'alert-error',
+                        messageClass:   'alert-danger',
                         message:        err.message
                     });
                 });
@@ -211,7 +211,7 @@ class Customer extends Component
                 .catch(err => {
                     this.setState({
                         showMessage:    true,
-                        messageClass:   'alert-error',
+                        messageClass:   'alert-danger',
                         message:        err.message
                     });
                 });
@@ -276,7 +276,7 @@ class Customer extends Component
                 messageClass: '',
                 message:      ''
             });
-        }, 2250);
+        }, 4000);
     }
 }
 

@@ -4,6 +4,7 @@ import moment from 'moment';
 
 const ItemNewEdit = (props) => {
     const { item, handleChange, handleClick } = props;
+    const today = moment().format('YYYY-MM-DD');
     return (
         <Form>
             <Row className="justify-content-center">
@@ -38,13 +39,13 @@ const ItemNewEdit = (props) => {
                 <Col xs={10} sm={6} md={5} lg={4}>
                     <Form.Group controlId="itemFormPurchaseDate">
                         <Form.Label>Purchase Date</Form.Label>
-                        <Form.Control name="purchase_date" type="date" value={moment(item.purchase_date).format('YYYY-MM-DD')} placeholder="Purchase Date" onChange={handleChange}/>
+                        <Form.Control name="purchase_date" type="date" value={(item.purchase_date) ? moment(item.purchase_date).format('YYYY-MM-DD') : today} placeholder="Purchase Date" onChange={handleChange}/>
                     </Form.Group>
                 </Col>
                 <Col xs={10} sm={6} md={5} lg={4}>
                     <Form.Group controlId="itemFormPurchase Cost">
                         <Form.Label>Purchase Cost</Form.Label>
-                        <Form.Control name="purchase_cost" type="input" value={item.purchase_cost} placeholder="0.00" onChange={handleChange}/>
+                        <Form.Control name="purchase_cost" type="number" value={item.purchase_cost} placeholder="0.00" min='0.00' step='any' onChange={handleChange}/>
                     </Form.Group>
                 </Col>
             </Row>

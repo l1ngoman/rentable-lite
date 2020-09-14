@@ -141,10 +141,13 @@ export const updateItem = function(item){
         method: "PUT"
     })
     .then((resp) => {
+        console.log(resp);
         return resp.json();
     })
     .catch(err => {
-        throw new Error(err)
+        console.log(err);
+        return err;
+        // throw err;
     });
 };
 
